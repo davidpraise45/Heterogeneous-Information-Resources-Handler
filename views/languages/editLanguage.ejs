@@ -1,0 +1,15 @@
+<%- include('../header') %>
+    
+    <form method="post" action="/editLanguageId/<%= language.JEZ_JEZIK %>">
+        <div class="form-group">
+            <label for="languageId">Language ID</label>
+            <input type="text" class="form-control" id="languageId" name="languageId" value="<%= languages.JEZ_JEZIK %>">
+        </div>
+        <div class="form-group">
+            <label for="languageName">Language</label>
+            <input type="text" class="form-control" id="languageName" name="languageName" value="<%= languages.JEZ_NAZIV %>">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+<%- include('../footer') %>

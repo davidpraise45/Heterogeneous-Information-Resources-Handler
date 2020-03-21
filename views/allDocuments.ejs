@@ -1,0 +1,26 @@
+<%- include('header') %>
+    <br>    
+    <a type="button" class="btn btn-primary" href="/generateAllDocument">Generate new states document</a>
+    <br><br>
+    
+    <div id="accordion">
+        <% documents.forEach(function(document, index) { %>
+        <div class="card">
+            <div class="card-header" id="<%= document._id %>">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-<%= document._id %>" aria-expanded="true" aria-controls="collapse-<%= document._id %>">
+                        <strong>document <%= index+1 %> - Created at: <%= document.created_at %></strong>
+                    </button>
+                </h5>
+            </div>
+      
+            <div id="collapse-<%= document._id %>" class="collapse show" aria-labelledby="<%= document._id %>" data-parent="#accordion">
+                <div class="card-body">
+                    <pre><%= JSON.stringify(document, null, 4); %></pre>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+    
+<%- include('footer') %>

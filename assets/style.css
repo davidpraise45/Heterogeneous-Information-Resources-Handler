@@ -1,0 +1,24 @@
+#add {
+    margin: 5px;
+    color: white;
+}
+
+span {
+    color: red;
+}
+
+.togglebale-states {
+    display: none;
+}
+
+.togglebale-cities {
+    display: none;
+}
+
+input[type="checkbox"]:checked+.togglebale-states {
+    display : block;
+}
+
+input[type="checkbox"]:checked+.togglebale-cities {
+    display : block;
+}

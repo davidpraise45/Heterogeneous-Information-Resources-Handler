@@ -1,0 +1,28 @@
+<%- include('../header') %>
+<br>
+    <form method="post" action="/addHighEducationInstitute">
+        <div class="form-group">
+            <label for="heiType">High Education Type</label>
+            <input type="text" class="form-control" id="heiType" name="heiType" required>
+        </div>
+        <div class="form-group">
+            <label for="heiId">High Education ID</label>
+            <input type="text" class="form-control" id="heiId" name="heiId" value="<%=heis.length+1%>" required>
+        </div>
+        <div class="form-group">
+            <label for="heiName">High Education Name</label>
+            <input type="text" class="form-control" id="heiName" name="heiName" required>
+        </div>
+        <div class="form-group">
+            <label for="heiStateId">High Education State Id</label>
+            <input type="text" class="form-control" id="heiStateId" name="heiStateId" required>
+        </div>
+        <div class="form-group">
+            <label for="heiOwnershipId">High Education Ownership Id</label>
+            <input type="text" class="form-control" id="heiOwnershipId" name="heiOwnershipId" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+<br>
+
+<%- include('../footer') %></div>

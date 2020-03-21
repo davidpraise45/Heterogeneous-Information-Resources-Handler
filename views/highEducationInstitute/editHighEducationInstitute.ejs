@@ -1,0 +1,28 @@
+<%- include('../header') %>
+<br>
+    <form method="post" action="/editHighEducationInstitute/<%= hei.TIP_UST %>">
+        <div class="form-group">
+            <label for="heiType">High Education Type</label>
+            <input type="text" class="form-control" id="heiType" name="heiType" value="<%= heis.TIP_UST%>">
+        </div>
+        <div class="form-group">
+            <label for="heiId">High Education ID</label>
+            <input type="text" class="form-control" id="heiId" name="heiId" value="<%= heis.VU_IDENTIFIKATOR%>">
+        </div>
+        <div class="form-group">
+            <label for="heiName">High Education Name</label>
+            <input type="text" class="form-control" id="heiName" name="heiName" value="<%= heis.VU_NAZIV%>">
+        </div>
+        <div class="form-group">
+            <label for="heiStateId">High Education State Id</label>
+            <input type="text" class="form-control" id="heiStateId" name="heiStateId" value="<%= heis.DR_IDENTIFIKATOR%>">
+        </div>
+        <div class="form-group">
+            <label for="heiOwnershipId">High Education Ownership Id</label>
+            <input type="text" class="form-control" id="heiOwnershipId" name="heiOwnershipId" value="<%= heis.VV_OZNAKA%>">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+<br>
+
+<%- include('../footer') %></div>

@@ -1,0 +1,19 @@
+<%- include('../header') %>
+<br>
+    <form method="post" action="/addState">
+        <div class="form-group">
+            <label for="stateId">State ID</label>
+            <input type="text" class="form-control" id="stateId" name="stateId" required>
+        </div>
+        <div class="form-group">
+            <label for="stateName">State name</label>
+            <input type="text" class="form-control" id="stateName" name="stateName" required>
+        </div>
+        <div class="form-group">
+            <label for="stateFoundationDate">Foundation Date</label>
+            <input type="text" class="form-control" id="stateFoundationDate" name="stateFoundationDate" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+<br>
+<%- include('../footer') %>
