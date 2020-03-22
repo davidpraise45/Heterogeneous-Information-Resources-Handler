@@ -11,8 +11,8 @@ exports.AppConfig = function() {
     const bodyParser = require('body-parser');
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended : true }));
-    var publicDir = require('path').join(__dirname,'../public');
-    app.use(express.static(publicDir));
+    app.use('/assets', express.static('assets/'));
+
 
     // Set EJS as a template engine (Enables passing from the back-end side to the front-end)
     app.set('view engine', 'ejs');
@@ -20,7 +20,7 @@ exports.AppConfig = function() {
     //Start express application at the port 3000
     app.listen(3001, (err) => {
         if ( !err ) {
-            console.log('Aplication is running at port 3001.');
+            console.log('Application is running at port 3001.');
         } else {
             console.log(err);
         }

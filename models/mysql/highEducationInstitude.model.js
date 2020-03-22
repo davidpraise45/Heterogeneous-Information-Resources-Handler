@@ -4,7 +4,6 @@ exports.HighEducationInstitute = function(dbcon) {
             return new Promise((resolve, reject) => {
                 let query = 'SELECT  TIP_UST, VU_IDENTIFIKATOR, VU_NAZIV, DR_IDENTIFIKATOR, VV_OZNAKA FROM HIGH_EDUCATION_INSTITUTION;';
                 dbcon.query(query, (err, data) => {
-                    console.log(data);
                     if ( !err ) {
                         resolve(data);
                     } else {
@@ -55,7 +54,20 @@ exports.HighEducationInstitute = function(dbcon) {
 
         deleteHighEducationInstituteById : function(id){
             return new Promise((resolve, reject) => {
-                let query = 'DELETE FROM HIGH_EDUCATION_INSTITUTION WHERE VU_NAZIV = ?;';
+                let query = 'DELETE FROM HIGH_EDUCATION_INSTITUTION WHERE VU_NAZIV LIKE ?;';
+                dbcon.query(query, id, (err, data) => {
+                    if(!err) {
+                        resolve(data);  //return the query's result
+                    } else {
+                        reject(err);    //return error message
+                    }
+                });
+            });
+        },
+
+        deleteHighEducationInstituteByStateId : function(id){
+            return new Promise((resolve, reject) => {
+                let query = 'DELETE FROM HIGH_EDUCATION_INSTITUTION WHERE DR_IDENTIFIKATOR LIKE ?;';
                 dbcon.query(query, id, (err, data) => {
                     if(!err) {
                         resolve(data);  //return the query's result

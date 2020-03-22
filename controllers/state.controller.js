@@ -64,15 +64,30 @@ exports.StateController = function(app, dbcon, mongo) {
     });
     
     app.get('/deleteStateById/:id', (req, res) => {
-        StateModel.deleteStateById(req.params.id)
-        .then((data) => {
-            res.render('message', {
-                successMessage : 'State ' + req.params.id + ' was deleted successfully!',  //success message
-                link : '<a href="/getAllStates"> Go back!</a>'      //provide a link that provides a links to another page
-            });
+        HighEducationInstituteModel.deleteHighEducationInstituteByStateId(req.params.id)
+        .catch((err) =>{
+            res.send('Error deleting high education institute: '  + err);
         })
-        .catch((err) => {
-            res.redirect('/getAllStates');
+        .then(() => {
+            PopulatedPlaceModel.deletePopulatedPlaceByStateId(req.params.id)
+            .catch((err) => {
+                res.send('Error deleting populated places: '  + err);
+            })
+            .then(() => {
+                LanguageModel.deleteLanguageByStateId(req.params.id)
+                .catch((err) => {
+                    res.send('Error deleting language: '  + err);
+                })
+                .then(() => {
+                    StateModel.deleteStateById(req.params.id)
+                    .then(() => {
+                        res.redirect('/getAllStates');
+                    })
+                    .catch((err) => {
+                        res.send('Error deleteing state: '  + err);
+                    });
+                });
+            });
         });
     });
 }

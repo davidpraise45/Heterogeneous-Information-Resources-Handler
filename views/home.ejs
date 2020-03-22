@@ -1,50 +1,35 @@
 <%- include('header')%>
 
-<div class="container-fluid">
-  <div class="row content">
-    <br>
-    <div class="col-sm-2 sidenav">
-        <!-- Side navigation -->
-        <a><img src="mysql.png" alt="MySQL" style="width:200px;height:200px;" ></a><br><br>
-        <a><img src="mongodb.png" alt="Mongo" style="width:200px;height:200px;"></a><br><br>
-        <a><img src="neo4j.png" alt="Neo4J" style="width:270px;height:280px;"></a> 
+        <h2 class="mb-4">Heterogeneous Information Resources Handle</h2>
+
+        <div class="row-sm-8">
+            <div class="table-responsive-xl table-hover">  
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">State ID</th>
+                        <th scope="col">State Name</th>
+                        <th scope="col">Foundation Date</th>
+                        <th scope="col">Language</th>
+                        <th scope="col">Populated Place Name</th>
+                        <th scope="col">PTT CODE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% mysqlDatas.forEach(function(mysqldata, index) { %>
+                    <tr>
+                        <td><strong><%= index+1 %></strong></td>
+                        <td><%= mysqldata.DR_IDENTIFIKATOR %></td>
+                        <td><%= mysqldata.DR_NAZIV %></td>
+                        <td><%= mysqldata.DR_DATUM_OSNIVANJA %></td>
+                        <td><%= mysqldata.JEZ_NAZIV %></td>
+                        <td><%= mysqldata.NM_NAZIV %></td>
+                        <td><%= mysqldata.NM_PTT_CODE %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-
-    <div class="col-sm-10">   
-        <h3>Heterogeneous Information Resources Handler</h3>
-        <br>
-          <a href="/getAllStates" type="button" class="btn btn-primary">Add State</button></a>
-          <a href="/getAllPopulatedPlaces" type="button" class="btn btn-primary">Add Population</button></a>
-          <a href="/getAllLanguages" type="button" class="btn btn-primary">Add Language</button></a>
-          <a href="/getAllHighEducationInstitute" type="button" class="btn btn-primary">Add High Education Institude</button></a>
-
-      <table class="table table-responsive-xl table-hover">
-        <thead class="thead-dark">
-            <br><br>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">State ID</th>
-                <th scope="col">State Name</th>
-                <th scope="col">Foundation Date</th>
-                <th scope="col">Language</th>
-                <th scope="col">Populated Place Name</th>
-                <th scope="col">PTT CODE</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% mysqlDatas.forEach(function(mysqldata, index) { %>
-            <tr>
-                <td><strong><%= index+1 %></strong></td>
-                <td><%= mysqldata.DR_IDENTIFIKATOR %></td>
-                <td><%= mysqldata.DR_NAZIV %></td>
-                <td><%= mysqldata.DR_DATUM_OSNIVANJA %></td>
-                <td><%= mysqldata.JEZ_NAZIV %></td>
-                <td><%= mysqldata.NM_NAZIV %></td>
-                <td><%= mysqldata.NM_PTT_CODE %></td>
-            </tr>
-            <% }); %>
-        </tbody>
-    </table>
-
 <%- include('footer')%>

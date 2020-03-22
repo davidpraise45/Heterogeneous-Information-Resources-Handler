@@ -54,7 +54,20 @@ exports.PopulatedPlaceModel = function(dbcon) {
 
         deletePopulatedPlaceById : function(id){
             return new Promise((resolve, reject) => {
-                let query = 'DELETE FROM POPULATED_PLACES WHERE NM_IDENTIFIKATOR = ?;';
+                let query = 'DELETE FROM POPULATED_PLACES WHERE NM_IDENTIFIKATOR LIKE ?;';
+                dbcon.query(query, id, (err, data) => {
+                    if(!err) {
+                        resolve(data);  //return the query's result
+                    } else {
+                        reject(err);    //return error message
+                    }
+                });
+            });
+        },
+
+        deletePopulatedPlaceByStateId : function(id){
+            return new Promise((resolve, reject) => {
+                let query = 'DELETE FROM POPULATED_PLACES WHERE DR_IDENTIFIKATOR LIKE ?;';
                 dbcon.query(query, id, (err, data) => {
                     if(!err) {
                         resolve(data);  //return the query's result

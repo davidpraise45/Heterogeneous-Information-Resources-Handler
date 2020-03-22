@@ -8,6 +8,7 @@ exports.MysqlConnection = function () {
         host: 'localhost',
         user: 'root',
         password: '',
+        dateStrings:true,
         database: 'crud_db'
     });
 

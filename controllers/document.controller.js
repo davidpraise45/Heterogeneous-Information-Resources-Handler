@@ -84,10 +84,7 @@ exports.DocumentController = function(app, dbcon, mongo) {
         .then((allDocuments) => {
             DocumentCollection.insertDocuments(allDocuments)
             .then(() => {
-                res.render('message', {
-                    successMessage : 'A new document was generated successfully!',
-                    link : '<a href="/getAllDocuments"> Go back!</a>'
-                });
+                res.redirect('/getAllDocuments');
             });
         })
     });

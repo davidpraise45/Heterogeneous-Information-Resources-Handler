@@ -43,7 +43,6 @@ exports.LanguageModel = function(dbcon) {
             return new Promise((resolve, reject) => {
                 let query = 'UPDATE LANGUAGES SET JEZ_JEZIK, JEZ_NAZIV = ? WHERE JEZ_NAZIV = ?;';
                 dbcon.query(query, [newId, language, id], (err, data) => {
-                    Console.log(data);
                     if(!err) {
                         resolve(data);      //return the query's result
                     } else {
@@ -55,7 +54,20 @@ exports.LanguageModel = function(dbcon) {
 
         deleteLanguageById : function(id){
             return new Promise((resolve, reject) => {
-                let query = 'DELETE FROM LANGUAGES WHERE JEZ_JEZIK = ?;';
+                let query = 'DELETE FROM LANGUAGES WHERE JEZ_JEZIK LIKE ?;';
+                dbcon.query(query, [id], (err, data) => {
+                    if(!err) {
+                        resolve(data);  //return the query's result
+                    } else {
+                        reject(err);    //return error message
+                    }
+                });
+            });
+        },
+
+        deleteLanguageByStateId : function(id){
+            return new Promise((resolve, reject) => {
+                let query = 'DELETE FROM LANGUAGES WHERE JEZ_JEZIK LIKE ?;';
                 dbcon.query(query, [id], (err, data) => {
                     if(!err) {
                         resolve(data);  //return the query's result

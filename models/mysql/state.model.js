@@ -54,7 +54,7 @@ exports.StateModel = function(dbcon) {
 
         deleteStateById : function(id) {
             return new Promise((resolve, reject) => {
-                let query = "DELETE FROM STATE WHERE DR_IDENTIFIKATOR = ?;";
+                let query = "DELETE FROM STATE WHERE DR_IDENTIFIKATOR LIKE ?;";
                 dbcon.query(query, [id], (err, data) => {
                     if ( !err ) {
                         resolve(data);
