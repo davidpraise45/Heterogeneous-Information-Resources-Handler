@@ -1,5 +1,10 @@
 <%- include('../header') %>
-<br>
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllHighEducationInstitute">Go back</a>
+        </div>
+    </div>
+    <br>
     <form method="post" action="/editHighEducationInstitute/<%= hei.TIP_UST %>">
         <div class="form-group">
             <label for="heiType">High Education Type</label>
@@ -23,6 +28,4 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-<br>
-
 <%- include('../footer') %></div>

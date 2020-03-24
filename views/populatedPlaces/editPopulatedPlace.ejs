@@ -1,13 +1,18 @@
 <%- include('../header') %>
-    
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllPopulatedPlaces">Go back</a>
+        </div>
+    </div>
+    <br>
     <form method="post" action="/editPopulatedPlaceById/<%= populatedPlace.NM_IDENTIFIKATOR %>">
         <div class="form-group">
-            <label for="stateId">State ID</label>
-            <input type="text" class="form-control" id="stateId" name="stateId" value="<%= populatedPlace.DR_IDENTIFIKATOR %>">
+            <!-- <label for="stateId">State ID</label>-->
+            <input type="hidden" class="form-control" id="stateId" name="stateId" value="<%= populatedPlace.DR_IDENTIFIKATOR %>">
         </div>
         <div class="form-group">
-            <label for="populatedPlaceID">Place ID</label>
-            <input type="text" class="form-control" id="id" name="id" value="<%= populatedPlace.NM_IDENTIFIKATOR %>">
+            <!-- <label type="hidden" for="populatedPlaceID">Place ID</label> -->
+            <input type="hidden" class="form-control" id="id" name="id" value="<%= populatedPlace.NM_IDENTIFIKATOR %>" >
         </div>
         <div class="form-group">
             <label for="name">Name</label>

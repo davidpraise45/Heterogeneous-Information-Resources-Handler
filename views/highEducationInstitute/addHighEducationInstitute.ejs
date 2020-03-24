@@ -1,28 +1,34 @@
 <%- include('../header') %>
-<br>
+
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllHighEducationInstitute">Go back</a>
+        </div>
+    </div>
+    <br>
+
     <form method="post" action="/addHighEducationInstitute">
         <div class="form-group">
             <label for="heiType">High Education Type</label>
-            <input type="text" class="form-control" id="heiType" name="heiType" required>
+            <input type="text" class="form-control" id="heiType" name="heiType" required placeholder="HS">
         </div>
         <div class="form-group">
             <label for="heiId">High Education ID</label>
-            <input type="text" class="form-control" id="heiId" name="heiId" value="<%=heis.length+1%>" required>
+            <input type="text" class="form-control" id="heiId" name="heiId" value="<%=heis.length+1%>" required readonly>
         </div>
         <div class="form-group">
             <label for="heiName">High Education Name</label>
-            <input type="text" class="form-control" id="heiName" name="heiName" required>
+            <input type="text" class="form-control" id="heiName" name="heiName" required placeholder="Standford University">
         </div>
         <div class="form-group">
             <label for="heiStateId">High Education State Id</label>
-            <input type="text" class="form-control" id="heiStateId" name="heiStateId" required>
+            <input type="text" class="form-control" id="heiStateId" name="heiStateId" required placeholder="USA">
         </div>
         <div class="form-group">
             <label for="heiOwnershipId">High Education Ownership Id</label>
-            <input type="text" class="form-control" id="heiOwnershipId" name="heiOwnershipId" required>
+            <input type="text" class="form-control" id="heiOwnershipId" name="heiOwnershipId" required placeholder="PR">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-<br>
 
 <%- include('../footer') %></div>

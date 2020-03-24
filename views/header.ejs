@@ -15,7 +15,7 @@
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
 				<div class="p-4 pt-5">
-		  		<a href="#" class="img logo rounded-circle mb-5" style="background-image: url(assets/images/profile.jpeg);"></a>
+		  		<a href="/" class="img logo rounded-circle mb-5" style="background-image: url(assets/images/profile.jpeg);"></a>
 	        <ul class="list-unstyled components mb-5">
 	          <li class="active">
 	            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Mysql</a>
@@ -35,13 +35,16 @@
 	            </ul>
 	          </li>
 	          <li>
-              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Mongo Database</a>
-              <ul class="collapse list-unstyled" id="pageSubmenu">
+              <li>
+                <a href="/generateAllDocument">Mongo Database</a>
+            </li>
+            
+            </li>
+            <li>
+              <a href="#GraphSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Graph</a>
+              <ul class="collapse list-unstyled" id="GraphSubmenu">
                 <li>
-                    <a href="/generateAllDocument">Create Document</a>
-                </li>
-                <li>
-                    <a href="#">Find Document</a>
+                    <a href="/generateAllDocument">Create Graph</a>
                 </li>
               </ul>
 	          </li>

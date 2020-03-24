@@ -3,16 +3,18 @@
         <h2 class="mb-4">Heterogeneous Information Resources Handle</h2>
 
         <div class="row-sm-8">
-            <div class="table-responsive-xl table-hover">  
+            <div class="table-responsive-xl table-hover dark">  
                 <table class="table">
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">State ID</th>
-                        <th scope="col">State Name</th>
-                        <th scope="col">Foundation Date</th>
+                        <th scope="col">Ownership Type</th>
+                        <th scope="col">Institution Type</th>
+                        <th scope="col">Institution Name</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Country</th>
                         <th scope="col">Language</th>
-                        <th scope="col">Populated Place Name</th>
+                        <th scope="col">Foundation Date</th>
                         <th scope="col">PTT CODE</th>
                     </tr>
                 </thead>
@@ -20,11 +22,13 @@
                     <% mysqlDatas.forEach(function(mysqldata, index) { %>
                     <tr>
                         <td><strong><%= index+1 %></strong></td>
-                        <td><%= mysqldata.DR_IDENTIFIKATOR %></td>
-                        <td><%= mysqldata.DR_NAZIV %></td>
-                        <td><%= mysqldata.DR_DATUM_OSNIVANJA %></td>
-                        <td><%= mysqldata.JEZ_NAZIV %></td>
+                        <td><%= mysqldata.VV_NAZIV %></td>
+                        <td><%= mysqldata.TIP_NAZIV %></td>
+                        <td><%= mysqldata.VU_NAZIV %></td>
                         <td><%= mysqldata.NM_NAZIV %></td>
+                        <td><%= mysqldata.DR_NAZIV %></td>
+                        <td><%= mysqldata.JEZ_NAZIV %></td>
+                        <td><%= mysqldata.DR_DATUM_OSNIVANJA %></td>
                         <td><%= mysqldata.NM_PTT_CODE %></td>
                     </tr>
                     <% }); %>

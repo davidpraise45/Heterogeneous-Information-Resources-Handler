@@ -1,19 +1,23 @@
 <%- include('../header') %>
-<br>
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllStates">Go back</a>
+        </div>
+    </div>
+    <br>
     <form method="post" action="/addState">
         <div class="form-group">
             <label for="stateId">State ID</label>
-            <input type="text" class="form-control" id="stateId" name="stateId" required>
+            <input type="text" class="form-control" id="stateId" name="stateId" required placeholder="USA">
         </div>
         <div class="form-group">
             <label for="stateName">State name</label>
-            <input type="text" class="form-control" id="stateName" name="stateName" required>
+            <input type="text" class="form-control" id="stateName" name="stateName" required placeholder="United States of America" >
         </div>
         <div class="form-group">
             <label for="stateFoundationDate">Foundation Date</label>
-            <input type="text" class="form-control" id="stateFoundationDate" name="stateFoundationDate" required>
+            <input type="text" class="form-control" id="stateFoundationDate" name="stateFoundationDate" required placeholder="1995-18-02">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-<br>
 <%- include('../footer') %>

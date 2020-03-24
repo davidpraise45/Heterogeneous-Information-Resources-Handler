@@ -1,23 +1,27 @@
 <%- include('../header') %>
-<br>
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllPopulatedPlaces">Go back</a>
+        </div>
+    </div>
+    <br>
     <form method="post" action="/addPopulatedPlace">
         <div class="form-group">
             <label for="stateId">State ID</label>
-            <input type="text" class="form-control" id="stateId" name="stateId" required>
+            <input type="text" class="form-control" id="stateId" name="stateId" required placeholder="USA">
         </div>
         <div class="form-group">
             <label for="populatedPlaceID">Place ID</label>
-            <input type="text" class="form-control" id="id" name="id" value="<%=populatedPlaces.length+1%>" required>
+            <input type="text" class="form-control" id="id" name="id" value="<%=populatedPlaces.length+1%>" required readonly>
         </div>
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input type="text" class="form-control" id="name" name="name" required placeholder="Texas">
         </div>
         <div class="form-group">
             <label for="pttCode">PTT Code</label>
-            <input type="text" class="form-control" id="pttCode" name="pttCode">
+            <input type="text" class="form-control" id="pttCode" name="pttCode" placeholder="112211">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-<br>
 <%- include('../footer') %>

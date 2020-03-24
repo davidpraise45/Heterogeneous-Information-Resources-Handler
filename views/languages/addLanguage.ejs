@@ -1,16 +1,22 @@
 <%- include('../header') %>
-<br>
+
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllLanguages">Go back</a>
+        </div>
+    </div>
+    <br>
+
     <form method="post" action="/addLanguage">
         <div class="form-group">
             <label for="languageId">Language ID</label>
-            <input type="text" class="form-control" id="languageId" name="languageId" required>
+            <input type="text" class="form-control" id="languageId" name="languageId" required placeholder="USA">
         </div>
         <div class="form-group">
             <label for="languageName">Language</label>
-            <input type="text" class="form-control" id="languageName" name="languageName" required>
+            <input type="text" class="form-control" id="languageName" name="languageName" required placeholder="English">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-<br>
 
 <%- include('../footer') %></div>

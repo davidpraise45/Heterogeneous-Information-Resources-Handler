@@ -1,4 +1,4 @@
-exports.LanguageController = function(app, dbcon) {
+exports.LanguageController = function(app, dbcon, mongo) {
 
     const LanguageModel = require('../models/mysql/language.model.js').LanguageModel(dbcon); 
 
@@ -58,27 +58,29 @@ exports.LanguageController = function(app, dbcon) {
     });
 
     app.get('/editLanguageById/:id', (req, res) => {
-        let getLanguage = LanguageModel.getLanguageById(req.params.id).then()
+        let getLanguage = LanguageModel.getLanguageById(req.params.id);
          
-        Promise.all([getLanguage]).then(data => {
+        Promise.all([getLanguage])
+        .then(data => {
             res.render('languages/editLanguage', {
-                languages : data[0][0]  
+                languages : data 
             });
         })
         .catch((err) => {      
             res.render('message', {
-                errorMessage : 'ERROR: ' + err + '!',
-                link : '<a href="/editLanguageById/' + req.params.id + '"> Go Back</a>'
+                errorMessage : 'ERROR:' + err + '!',
+                link : '<a href="/getAllLanguages"> Go Back</a>'
             });
         });
     });
 
     app.post('/editLanguageById/:id', (req, res) => {
-        LanguageModel.editLanguageById(req.body.languageId, req.body.languageName, req.params.id)
+        LanguageModel.editLanguageById(req.body.languageName, req.params.id)
         .then((data) => {
             res.redirect('/getAllLanguages');
         })
         .catch((err) => {
+            console.log(req.params.id);
             res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
                 errorMessage : 'ERROR: ' + err,
                 link : '<a href="/editLanguageById/' + req.params.id + '"> Go Back</a>'

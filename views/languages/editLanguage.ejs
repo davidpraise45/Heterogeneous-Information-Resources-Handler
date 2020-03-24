@@ -1,9 +1,15 @@
 <%- include('../header') %>
-    
-    <form method="post" action="/editLanguageId/<%= language.JEZ_JEZIK %>">
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllLanguages">Go back</a>
+        </div>
+    </div>
+    <br>
+
+    <form method="post" action="/editLanguageById/<%= language.JEZ_JEZIK %>">
         <div class="form-group">
-            <label for="languageId">Language ID</label>
-            <input type="text" class="form-control" id="languageId" name="languageId" value="<%= languages.JEZ_JEZIK %>">
+            <!-- <label for="languageId">Language ID</label> -->
+            <input type="hidden" class="form-control" id="languageId" name="languageId" value="<%= languages.JEZ_JEZIK %>" >
         </div>
         <div class="form-group">
             <label for="languageName">Language</label>

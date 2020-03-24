@@ -34,8 +34,8 @@
                             <td><strong><%= index+1 %></strong></td>
                             <td><%= language.JEZ_JEZIK %></td>
                             <td><%= language.JEZ_NAZIV %></td>
-                            <td><a type="button" class="btn btn-warning" href="/editLanguageById/<%= language.JEZ_NAZIV %>">Edit</a></td>
-                            <td><a type="button" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete this language?');" href="/deleteLanguageById/<%= language.JEZ_NAZIV %>">Delete</a></td>
+                            <td><a type="button" class="btn btn-warning" href="/editLanguageById/<%=language.JEZ_JEZIK%>">Edit</a></td>
+                            <td><a type="button" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete this language?');" href="/deleteLanguageById/<%= language.JEZ_JEZIK %>">Delete</a></td>
                         </tr>
                         <% }); %>
                     </tbody>

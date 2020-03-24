@@ -39,10 +39,12 @@ exports.LanguageModel = function(dbcon) {
             });
         },
 
-        editLanguageById : function(newId, language, id){
+        editLanguageById : function(language, id){
+            
             return new Promise((resolve, reject) => {
-                let query = 'UPDATE LANGUAGES SET JEZ_JEZIK, JEZ_NAZIV = ? WHERE JEZ_NAZIV = ?;';
-                dbcon.query(query, [newId, language, id], (err, data) => {
+                let query = "UPDATE LANGUAGES SET JEZ_NAZIV = ? WHERE JEZ_JEZIK LIKE ?;";
+                dbcon.query(query, [language, id], (err, data) => {
+                    console.log(err);
                     if(!err) {
                         resolve(data);      //return the query's result
                     } else {
