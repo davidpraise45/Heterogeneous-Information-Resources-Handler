@@ -40,8 +40,8 @@
                             <td><%= hei.VU_NAZIV %></td>
                             <td><%= hei.DR_IDENTIFIKATOR %></td>
                             <td><%= hei.VV_OZNAKA %></td>
-                            <td><a type="button" class="btn btn-warning" href="/editHighEducationInstituteById/<%= hei.VU_NAZIV %>">Edit</a></td>
-                            <td><a type="button" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete this High Education Institute?');" href="/deleteHighEducationInstituteById/<%= hei.VU_NAZIV %>">Delete</a></td>
+                            <td><a type="button" class="btn btn-warning" href="/editHighEducationInstituteById/<%= hei.VU_IDENTIFIKATOR %>">Edit</a></td>
+                            <td><a type="button" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete this High Education Institute?');" href="/deleteHighEducationInstituteById/<%= hei.VU_IDENTIFIKATOR %>">Delete</a></td>
                         </tr>
                         <% }); %>
                     </tbody>

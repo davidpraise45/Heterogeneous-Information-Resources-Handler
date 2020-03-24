@@ -5,8 +5,8 @@
         </div>
     </div>
     <br>
-
-    <form method="post" action="/editLanguageById/<%= language.JEZ_JEZIK %>">
+    The language ID is : <%= languages.JEZ_JEZIK %>
+    <form method="post" action="/editLanguageById/<%= languages.JEZ_JEZIK %>">
         <div class="form-group">
             <!-- <label for="languageId">Language ID</label> -->
             <input type="hidden" class="form-control" id="languageId" name="languageId" value="<%= languages.JEZ_JEZIK %>" >

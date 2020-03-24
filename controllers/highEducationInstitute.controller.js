@@ -62,10 +62,9 @@ exports.HighEducationInstituteController = function(app, dbcon) {
     app.get('/editHighEducationInstituteById/:id', (req, res) => {
    
         
-        let getAllHighEducationInstitute = HighEducationInstitute.getAllHighEducationInstitute().then();
-        let addHighEducationInstitute = HighEducationInstitute.addHighEducationInstitute(req.body.heiType, req.body.heiId, req.body.heiName, req.body.heiStateId, req.body.heiOwnershipId).then();
-
-        Promise.all([getAllHighEducationInstitute, addHighEducationInstitute]).then(data => {
+        let getAllHighEducationInstitute = HighEducationInstitute.getHighEducationInstituteById(req.params.id)
+        .then(data => {
+            console.log(data[0]);
             res.render('highEducationInstitute/editHighEducationInstitute', {
                 heis : data[0]   //Because Promise.all() returns two arrays, the first one '[0]' will be the result of promise 'getAllStates'
                 //languages: data[1][0]  //and the second one '[1]' will be the result of the promise getLanguage, which in turn returns only one row
@@ -80,7 +79,7 @@ exports.HighEducationInstituteController = function(app, dbcon) {
     });
 
     app.post('/editHighEducationInstituteById/:id', (req, res) => {
-        HighEducationInstitute.editHighEducationInstituteById(req.body.heiType, req.body.heiId, req.body.heiName, req.body.heiStateId, req.body.heiOwnershipId)
+        HighEducationInstitute.editHighEducationInstituteById(req.body.heiType, req.body.heiName, req.body.heiStateId, req.body.heiOwnershipId, req.params.id)
         .then((data) => {
             res.redirect('/getAllHighEducationInstitute');
         })

@@ -15,7 +15,7 @@ exports.LanguageModel = function(dbcon) {
 
         getLanguageById : function(id){
             return new Promise((resolve, reject) => {
-                let query = "SELECT * FROM LANGUAGES JEZ_JEZIK = ? ;"
+                let query = "SELECT * FROM LANGUAGES WHERE JEZ_JEZIK = ? ;"
                 dbcon.query(query, id, (err, data) => {
                     if(!err) {
                         resolve(data);  //return the query's result

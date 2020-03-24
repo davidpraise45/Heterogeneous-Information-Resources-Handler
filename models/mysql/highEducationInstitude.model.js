@@ -15,7 +15,7 @@ exports.HighEducationInstitute = function(dbcon) {
 
         getHighEducationInstituteById : function(id){
             return new Promise((resolve, reject) => {
-                let query = 'SELECT TIP_UST, VU_IDENTIFIKATOR, VU_NAZIV, DR_IDENTIFIKATOR, VV_OZNAKA FROM HIGH_EDUCATION_INSTITUTION WHERE TIP_UST = ?;';
+                let query = 'SELECT * FROM HIGH_EDUCATION_INSTITUTION WHERE VU_IDENTIFIKATOR = ?;';
                 dbcon.query(query, id, (err, data) => {
                     if(!err) {
                         resolve(data);  //return the query's result
@@ -39,10 +39,11 @@ exports.HighEducationInstitute = function(dbcon) {
             });
         },
 
-        editHighEducationInstituteById : function(heiType, heiId, heiName, heiStateId, heiOwnershipId){
+        editHighEducationInstituteById : function(heiType, heiName, heiStateId, heiOwnershipId, id){
             return new Promise((resolve, reject) => {
-                let query = 'UPDATE HIGH_EDUCATION_INSTITUTION SET TIP_UST = ?, VU_IDENTIFIKATOR = ?, VU_NAZIV = ?, DR_IDENTIFIKATOR = ?, VV_OZNAKA = ? WHERE VU_NAZIV = ?;';
-                dbcon.query(query, [heiType, heiId, heiName, heiStateId, heiOwnershipId], (err, data) => {
+                console.log(heiType, heiName, heiStateId, heiOwnershipId, id);
+                let query = 'UPDATE HIGH_EDUCATION_INSTITUTION SET TIP_UST = ?,  VU_NAZIV = ?, DR_IDENTIFIKATOR = ?, VV_OZNAKA = ? WHERE VU_IDENTIFIKATOR = ?';
+                dbcon.query(query, [heiType, heiName, heiStateId, heiOwnershipId, id], (err, data) => {
                     if(!err) {
                         resolve(data);      //return the query's result
                     } else {
@@ -54,7 +55,7 @@ exports.HighEducationInstitute = function(dbcon) {
 
         deleteHighEducationInstituteById : function(id){
             return new Promise((resolve, reject) => {
-                let query = 'DELETE FROM HIGH_EDUCATION_INSTITUTION WHERE VU_NAZIV LIKE ?;';
+                let query = 'DELETE FROM HIGH_EDUCATION_INSTITUTION WHERE VU_IDENTIFIKATOR = ?;';
                 dbcon.query(query, id, (err, data) => {
                     if(!err) {
                         resolve(data);  //return the query's result

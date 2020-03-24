@@ -58,12 +58,14 @@ exports.LanguageController = function(app, dbcon, mongo) {
     });
 
     app.get('/editLanguageById/:id', (req, res) => {
-        let getLanguage = LanguageModel.getLanguageById(req.params.id);
+        //let getLanguage = LanguageModel.getLanguageById(req.params.id);
          
-        Promise.all([getLanguage])
+        //Promise.all([getLanguage])
+        LanguageModel.getLanguageById(req.params.id)
         .then(data => {
+            console.log(data[0]);
             res.render('languages/editLanguage', {
-                languages : data 
+                languages : data[0] 
             });
         })
         .catch((err) => {      
