@@ -7,7 +7,7 @@
     <br>
     <form method="post" action="/editPopulatedPlaceById/<%= populatedPlace.NM_IDENTIFIKATOR %>">
         <div class="form-group">
-            <!-- <label for="stateId">State ID</label>-->
+            <label for="stateId">State ID: <%= populatedPlace.DR_IDENTIFIKATOR %></label>
             <input type="hidden" class="form-control" id="stateId" name="stateId" value="<%= populatedPlace.DR_IDENTIFIKATOR %>">
         </div>
         <div class="form-group">

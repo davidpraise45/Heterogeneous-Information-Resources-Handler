@@ -1,5 +1,4 @@
 exports.HighEducationInstituteController = function(app, dbcon) {
-    const StateModel = require('../models/mysql/state.model.js').StateModel(dbcon);
     const HighEducationInstitute = require('../models/mysql/highEducationInstitude.model').HighEducationInstitute(dbcon); 
 
     app.get('/getAllHighEducationInstitute', (req, res) => {
@@ -34,9 +33,9 @@ exports.HighEducationInstituteController = function(app, dbcon) {
 
     app.post('/addHighEducationInstitute', (req, res) => {
 
-        let getAllHighEducationInstitute = HighEducationInstitute.getAllHighEducationInstitute().then();
-        let addHighEducationInstitute = HighEducationInstitute.addHighEducationInstitute(req.body.heiType, req.body.heiId, req.body.heiName, req.body.heiStateId, req.body.heiOwnershipId).then();
-
+        let getAllHighEducationInstitute = HighEducationInstitute.getAllHighEducationInstitute();
+        let addHighEducationInstitute = HighEducationInstitute.addHighEducationInstitute(req.body.heiType, req.body.heiId, req.body.heiName, req.body.heiStateId, req.body.heiOwnershipId);
+        
         Promise.all([getAllHighEducationInstitute, addHighEducationInstitute])
         .then((data) => {
             //Check whether a populated place with the same ID exists or no
@@ -64,7 +63,6 @@ exports.HighEducationInstituteController = function(app, dbcon) {
         
         let getAllHighEducationInstitute = HighEducationInstitute.getHighEducationInstituteById(req.params.id)
         .then(data => {
-            console.log(data[0]);
             res.render('highEducationInstitute/editHighEducationInstitute', {
                 heis : data[0]   //Because Promise.all() returns two arrays, the first one '[0]' will be the result of promise 'getAllStates'
                 //languages: data[1][0]  //and the second one '[1]' will be the result of the promise getLanguage, which in turn returns only one row

@@ -2,7 +2,7 @@ exports.PopulatedPlaceModel = function(dbcon) {
     return {
         getAllPopulatedPlaces : function(){
             return new Promise((resolve, reject) => {
-                let query = 'SELECT POPULATED_PLACES.* FROM POPULATED_PLACES;';
+                let query = 'SELECT DR_IDENTIFIKATOR, NM_IDENTIFIKATOR, NM_NAZIV, NM_PTT_CODE FROM POPULATED_PLACES;';
                 dbcon.query(query, (err, data) => {
                     if ( !err ) {
                         resolve(data);
@@ -15,7 +15,7 @@ exports.PopulatedPlaceModel = function(dbcon) {
 
         getPopulatedPlaceById : function(id){
             return new Promise((resolve, reject) => {
-                let query = 'SELECT * FROM POPULATED_PLACES WHERE NM_IDENTIFIKATOR = ?;';
+                let query = 'SELECT DR_IDENTIFIKATOR, NM_IDENTIFIKATOR, NM_NAZIV, NM_PTT_CODE FROM POPULATED_PLACES WHERE NM_IDENTIFIKATOR = ?;';
                 dbcon.query(query, id, (err, data) => {
                     if(!err) {
                         resolve(data);  //return the query's result

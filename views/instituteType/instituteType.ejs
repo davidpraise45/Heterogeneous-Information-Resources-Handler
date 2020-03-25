@@ -1,0 +1,47 @@
+<%- include('../header') %>
+    
+    <% if (instiType.length === 0) { %>
+        <br>
+        <div class="alert alert-info" role="alert">
+            <p>There are no institute type to show, click <a href="/addInstituteType">here</a> to add a new institute type.</p>    
+        </div>
+        <br>
+    <% } else { %>
+        <h2 class="mb-4">Type of Institute</h2>
+
+        <div class="row-sm-8">
+            <div>
+                <a type="button" class="btn btn-primary" href="/addInstituteType">Add Institute Type</a>
+            </div>
+        </div>
+        <br>
+
+        <div class="row-sm-8">
+            <div class="table-responsive-xl table-hover">  
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% instiType.forEach(function(instiType, index) { %>
+                        <tr> 
+                            <td><strong><%= index+1 %></strong></td>
+                            <td><%= instiType.TIP_UST %></td>
+                            <td><%= instiType.TIP_NAZIV %></td> 
+                            <td><a type="button" class="btn btn-warning" href="/editInstituteTypeById/<%= instiType.TIP_UST %>">Edit</a></td>
+                            <td><a type="button" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete this Institute Type?');" href="/deleteInstituteTypeById/<%= instiType.TIP_UST %>">Delete</a></td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <% } %>
+
+<%- include('../footer') %>

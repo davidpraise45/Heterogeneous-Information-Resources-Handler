@@ -9,12 +9,12 @@
 
     <form method="post" action="/addHighEducationInstitute">
         <div class="form-group">
-            <label for="heiType">High Education Type</label>
-            <input type="text" class="form-control" id="heiType" name="heiType" required placeholder="HS">
+            <label for="heiId">High Education ID: <%=heis.length+1%></label>
+            <input type="hidden" class="form-control" id="heiId" name="heiId" value="<%=heis.length+1%>" required>
         </div>
         <div class="form-group">
-            <label for="heiId">High Education ID</label>
-            <input type="text" class="form-control" id="heiId" name="heiId" value="<%=heis.length+1%>" required readonly>
+            <label for="heiType">High Education Type</label>
+            <input type="text" class="form-control" id="heiType" name="heiType" required placeholder="HS">
         </div>
         <div class="form-group">
             <label for="heiName">High Education Name</label>

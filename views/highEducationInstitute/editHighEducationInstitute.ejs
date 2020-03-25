@@ -7,12 +7,12 @@
     <br>
     <form method="post" action="/editHighEducationInstituteById/<%= heis.VU_IDENTIFIKATOR %>">
         <div class="form-group">
-            <label for="heiType">High Education Type</label>
-            <input type="text" class="form-control" id="heiType" name="heiType" value="<%= heis.TIP_UST%>">
+            <label for="heiId">High Education ID: <%= heis.VU_IDENTIFIKATOR%></label>
+            <!-- <input type="text" class="form-control" id="heiId" name="heiId" value="<%= heis.VU_IDENTIFIKATOR%>"> -->
         </div>
         <div class="form-group">
-            <label for="heiId">High Education ID</label>
-            <input type="text" class="form-control" id="heiId" name="heiId" value="<%= heis.VU_IDENTIFIKATOR%>">
+            <label for="heiType">High Education Type</label>
+            <input type="text" class="form-control" id="heiType" name="heiType" value="<%= heis.TIP_UST%>">
         </div>
         <div class="form-group">
             <label for="heiName">High Education Name</label>

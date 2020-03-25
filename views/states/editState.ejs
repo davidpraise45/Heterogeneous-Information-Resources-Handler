@@ -7,7 +7,7 @@
     <br>
     <form method="post" action="/editStateById/<%= state.DR_IDENTIFIKATOR %>">
         <div class="form-group">
-            <!-- <label>State ID</label> -->
+            <label"  id="stateId" name="stateId">State ID : <%= state.DR_IDENTIFIKATOR %></label>
             <input type="hidden" class="form-control" id="stateId" name="stateId" value="<%= state.DR_IDENTIFIKATOR %>">
         </div>
         <div class="form-group">

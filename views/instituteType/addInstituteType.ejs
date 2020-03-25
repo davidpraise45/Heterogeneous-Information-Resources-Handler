@@ -1,0 +1,22 @@
+<%- include('../header') %>
+
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllInstituteType">Go back</a>
+        </div>
+    </div>
+    <br>
+
+    <form method="post" action="/addInstituteType">
+        <div class="form-group">
+            <label for="instituteTypeId">Institute ID</label>
+            <input type="text" class="form-control" id="instituteTypeId" name="instituteTypeId" required placeholder="HS">
+        </div>
+        <div class="form-group">
+            <label for="instituteTypeName">Institute Name</label>
+            <input type="text" class="form-control" id="instituteTypeName" name="instituteTypeName" required placeholder="High School">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+<%- include('../footer') %></div>

@@ -1,0 +1,19 @@
+<%- include('../header') %>
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllInstituteType">Go back</a>
+        </div>
+    </div>
+    <br>
+    <form method="post" action="/addOwnershipTypeById/<%= ownershipType.VV_OZNAKA %>">
+        <div class="form-group">
+            <label for="ownershipTypeId">Ownership ID</label>
+            <input type="text" class="form-control" id="ownershipTypeId" name="ownershipTypeId" required placeholder="PR">
+        </div>
+        <div class="form-group">
+            <label for="ownershipTypeName">Ownership Name</label>
+            <input type="text" class="form-control" id="ownershipTypeName" name="ownershipTypeName" required placeholder="Private">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+<%- include('../footer') %></div>

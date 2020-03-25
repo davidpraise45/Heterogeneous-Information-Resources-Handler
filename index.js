@@ -6,3 +6,5 @@ require('./controllers/populatedPlace.controller.js').PopulatedPlaceController(a
 require('./controllers/language.controller.js').LanguageController(app, dbcon, mongo);
 require('./controllers/highEducationInstitute.controller').HighEducationInstituteController(app, dbcon, mongo);
 require('./controllers/document.controller.js').DocumentController(app, dbcon, mongo);
+require('./controllers/instituteType.controller.js').InstituteTypeController(app, dbcon, mongo);
+require('./controllers/ownershipType.controller.js').OwnershipTypeController(app, dbcon, mongo);
