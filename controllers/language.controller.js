@@ -1,6 +1,7 @@
-exports.LanguageController = function(app, dbcon, mongo) {
+exports.LanguageController = function(app, dbcon, neo4j) {
 
-    const LanguageModel = require('../models/mysql/language.model.js').LanguageModel(dbcon); 
+    const LanguageModel = require('../models/mysql/language.model.js').LanguageModel(dbcon);
+    const Neo4jLanguageModel = require('../models/neo4j/language.model.js').LanguageModel(neo4j); 
 
     app.get('/getAllLanguages', (req, res) => {
         LanguageModel.getAllLanguages()
@@ -34,10 +35,11 @@ exports.LanguageController = function(app, dbcon, mongo) {
 
     app.post('/addLanguage', (req, res) => {
 
-        let getAllLanguages = LanguageModel.getAllLanguages().then();
-        let addLanguage = LanguageModel.addLanguage(req.body.languageId, req.body.languageName).then();
+        let getAllLanguages = LanguageModel.getAllLanguages();
+        let mysqlAddLanguage = LanguageModel.addLanguage(req.body.languageId, req.body.languageName);
+        let neo4jAddPromise = Neo4jLanguageModel.addLanguage(req.body.languageId, req.body.languageName);
 
-        Promise.all([getAllLanguages, addLanguage])
+        Promise.all([getAllLanguages, mysqlAddLanguage, neo4jAddPromise])
         .then((data) => {
             for (let language of data[0]) {  
                 if (language.JEZ_JEZIK == req.body.languageId || language.JEZ_NAZIV == req.body.languageName) {
@@ -58,9 +60,6 @@ exports.LanguageController = function(app, dbcon, mongo) {
     });
 
     app.get('/editLanguageById/:id', (req, res) => {
-        //let getLanguage = LanguageModel.getLanguageById(req.params.id);
-         
-        //Promise.all([getLanguage])
         LanguageModel.getLanguageById(req.params.id)
         .then(data => {
             console.log(data[0]);
@@ -77,7 +76,9 @@ exports.LanguageController = function(app, dbcon, mongo) {
     });
 
     app.post('/editLanguageById/:id', (req, res) => {
-        LanguageModel.editLanguageById(req.body.languageName, req.params.id)
+        let mysqlEditPromise = LanguageModel.editLanguageById(req.body.languageId,req.body.languageName, req.params.id);
+        let neo4jEditPromise = Neo4jLanguageModel.editLanguageById(req.body.languageId, req.body.languageName,req.params.id);
+        Promise.all([mysqlEditPromise, neo4jEditPromise])
         .then((data) => {
             res.redirect('/getAllLanguages');
         })
@@ -91,7 +92,9 @@ exports.LanguageController = function(app, dbcon, mongo) {
     });
 
     app.get('/deleteLanguageById/:id', (req, res) => {
-        LanguageModel.deleteLanguageById(req.params.id)
+        let mysqlEditPromise = LanguageModel.deleteLanguageById(req.params.id);
+        let neo4jEditPromise = Neo4jLanguageModel.deleteLanguageById(req.params.id);
+        Promise.all([mysqlEditPromise, neo4jEditPromise])
         .then((data) => {
             res.redirect('/getAllLanguages')
         })

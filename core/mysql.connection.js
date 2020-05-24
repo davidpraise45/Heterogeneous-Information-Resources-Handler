@@ -7,7 +7,7 @@ exports.MysqlConnection = function () {
     let dbcon = mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: 'password',
         dateStrings:true,
         database: 'crud_db'
     });

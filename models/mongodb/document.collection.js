@@ -2,7 +2,7 @@ exports.DocumentCollectionModel = function(mongo) {
     return {
         getAllDocuments : function() {
             return new Promise((resolve, reject) => {
-                mongo.collection('Document').find((err, result) => {  //Retrieve all documents from states collection
+                mongo.collection('Document').find((err, result) => {  //Retrieve all documents from object collection
                     if(!err) {
                         resolve(result);  //return obtained results
                     } else {
@@ -12,7 +12,7 @@ exports.DocumentCollectionModel = function(mongo) {
             });
         },
 
-        insertDocuments : function(document) {  //statesDocuments is an object with all states to insert in the 'states' collection. This argument is fulfilled by the controller
+        insertDocuments : function(document) {  
             return new Promise((resolve, reject) => {
                 mongo.collection('Document').insert(document, (err, result) => {    //insert a document passed by the controller when calling the function
                     if(!err) {

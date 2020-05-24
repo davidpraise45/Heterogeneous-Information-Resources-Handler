@@ -1,6 +1,7 @@
-exports.PopulatedPlaceController = function(app, dbcon) {
+exports.PopulatedPlaceController = function(app, dbcon, neo4j) {
     const PopulatedPlaceModel = require('../models/mysql/populatedPlace.model.js').PopulatedPlaceModel(dbcon);
-
+    const Neo4jPopulatedPlaceModel = require('../models/neo4j/populatedPlaces.model.js').PopulatedPlaceModel(neo4j);
+    
     app.get('/getAllPopulatedPlaces', (req, res) => {
         PopulatedPlaceModel.getAllPopulatedPlaces()
         .then(data => {
@@ -33,10 +34,11 @@ exports.PopulatedPlaceController = function(app, dbcon) {
 
     app.post('/addPopulatedPlace', (req, res) => {
    
-        let getAllPopulatedPlaces = PopulatedPlaceModel.getAllPopulatedPlaces().then();
-        let addPopulatedPlace = PopulatedPlaceModel.addPopulatedPlace(req.body.stateId, parseInt(req.body.id, 10), req.body.name, req.body.pttCode).then();
+        let getAllPopulatedPlaces = PopulatedPlaceModel.getAllPopulatedPlaces();
+        let mysqlAddPromise = PopulatedPlaceModel.addPopulatedPlace(req.body.stateId, parseInt(req.body.id, 10), req.body.name, req.body.pttCode);
+        let neo4jAddPromise = Neo4jPopulatedPlaceModel.addPopulatedPlace(req.body.stateId, parseInt(req.body.id, 10), req.body.name, req.body.pttCode);
 
-        Promise.all([getAllPopulatedPlaces, addPopulatedPlace])
+        Promise.all([getAllPopulatedPlaces, mysqlAddPromise, neo4jAddPromise])
         .then((data) => {
           
             for (let populatedPlace of data[0]) {   
@@ -60,9 +62,10 @@ exports.PopulatedPlaceController = function(app, dbcon) {
 
     app.get('/editPopulatedPlaceById/:id', (req, res) => {
     
-        let getPopulatedPlace = PopulatedPlaceModel.getPopulatedPlaceById(req.params.id).then();  
+        let getPopulatedPlace = PopulatedPlaceModel.getPopulatedPlaceById(req.params.id)
         
-        Promise.all([getPopulatedPlace]).then(data => {
+        Promise.all([getPopulatedPlace])
+        .then(data => {
             res.render('populatedPlaces/editPopulatedPlace', {
                 populatedPlace: data[0][0]  
             });
@@ -76,7 +79,10 @@ exports.PopulatedPlaceController = function(app, dbcon) {
     });
 
     app.post('/editPopulatedPlaceById/:id', (req, res) => {
-        PopulatedPlaceModel.editPopulatedPlaceById(req.body.stateId, parseInt(req.body.id, 10), req.body.name, req.body.pttCode, req.params.id)
+        let mysqlEditPromise = PopulatedPlaceModel.editPopulatedPlaceById(req.body.stateId, parseInt(req.body.id, 10), req.body.name, req.body.pttCode, parseInt(req.params.id)); //parseInt(req.body.id, 10) converts the submitted ID to integer, as in the database it is of type integer
+        let neo4jEditPromise = Neo4jPopulatedPlaceModel.editPopulatedPlaceById(req.body.stateId, parseInt(req.body.id, 10), req.body.name, req.body.pttCode, parseInt(req.params.id, 10));
+        
+        Promise.all([mysqlEditPromise, neo4jEditPromise])
         .then((data) => {
             res.redirect('/getAllPopulatedPlaces');
         })
@@ -89,7 +95,10 @@ exports.PopulatedPlaceController = function(app, dbcon) {
     });
 
     app.get('/deletePopulatedPlaceById/:id', (req, res) => {
-        PopulatedPlaceModel.deletePopulatedPlaceById(req.params.id)
+        let mysqlDeletePromise = PopulatedPlaceModel.deletePopulatedPlaceById(req.params.id);
+        let neo4jDeletePromise = Neo4jPopulatedPlaceModel.deletePopulatedPlaceById(parseInt(req.params.id));
+
+        Promise.all([mysqlDeletePromise, neo4jDeletePromise])
         .then((data) => {
             res.redirect('/getAllPopulatedPlaces');
         })

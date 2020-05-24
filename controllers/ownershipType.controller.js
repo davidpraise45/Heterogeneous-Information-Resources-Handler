@@ -1,6 +1,7 @@
-exports.OwnershipTypeController = function(app, dbcon, mongo) {
+exports.OwnershipTypeController = function(app, dbcon, neo4j) {
 
-    const OwnershipTypeModel = require('../models/mysql/ownershipType.model.js').OwnershipType(dbcon); 
+    const OwnershipTypeModel = require('../models/mysql/ownershipType.model.js').OwnershipType(dbcon);
+    const Neo4jOwnershipTypeModel = require('../models/neo4j/ownershipType.model.js').OwnershipTypeModel(neo4j); 
     
         app.get('/getAllOwnershipType', (req, res) => {
             OwnershipTypeModel.getAllOwnershipType()
@@ -32,9 +33,11 @@ exports.OwnershipTypeController = function(app, dbcon, mongo) {
             })
         });
     
-        app.post('/addOwnershipType', (req, res) => {
-    
-            OwnershipTypeModel.addTypeOfOwnership(req.body.ownershipTypeId, req.body.ownershipTypeName)
+        app.post('/addOwnershipTypeById/', (req, res) => {
+
+            let mysqlAddPromise = OwnershipTypeModel.addTypeOfOwnership(req.body.ownershipTypeId, req.body.ownershipTypeName);
+            let neojAddPromise = Neo4jOwnershipTypeModel.addOwnershipType(req.body.ownershipTypeId, req.body.ownershipTypeName);
+            Promise.all([mysqlAddPromise, neojAddPromise])
             .then((data) => {
                 res.redirect('addOwnershipType');
             })
@@ -64,7 +67,10 @@ exports.OwnershipTypeController = function(app, dbcon, mongo) {
         });
     
         app.post('/editOwnershipTypeById/:id', (req, res) => {
-            OwnershipTypeModel.editTypeOfOwnershipById(req.body.ownershipTypeId, req.body.ownershipTypeName, req.params.id)
+
+            let mysqlEditPromise = OwnershipTypeModel.editTypeOfOwnershipById(req.body.ownershipTypeId, req.body.ownershipTypeName, req.params.id);
+            let neo4jEditPromise = Neo4jOwnershipTypeModel.editOwnershipTypeById(req.body.ownershipTypeId, req.body.ownershipTypeName, req.params.id);
+            Promise.all([mysqlEditPromise, neo4jEditPromise])
             .then((data) => {
                 res.redirect('/getAllOwnershipType');
             })
@@ -77,7 +83,9 @@ exports.OwnershipTypeController = function(app, dbcon, mongo) {
         });
     
         app.get('/deleteOwnershipTypeById/:id', (req, res) => {
-            OwnershipTypeModel.deleteTypeOfOwnershipById(req.params.id)
+            let mysqlDeletePromise = OwnershipTypeModel.deleteTypeOfOwnershipById(req.params.id);
+            let neo4jDeletePromise = Neo4jOwnershipTypeModel.deleteOwnershipTypeById(req.params.id);
+            Promise.all([mysqlDeletePromise, neo4jDeletePromise])
             .then((data) => {
                 res.redirect('/getAllOwnershipType');
             })

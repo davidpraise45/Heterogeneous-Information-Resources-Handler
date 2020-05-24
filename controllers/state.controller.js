@@ -1,10 +1,9 @@
-exports.StateController = function(app, dbcon, mongo) {
-    //console.log('Pravljenje kontrolera. Mongo je: ', mongo);
-
+exports.StateController = function(app, dbcon, neo4j) {
     const StateModel = require('../models/mysql/state.model.js').StateModel(dbcon);
     const PopulatedPlaceModel = require('../models/mysql/populatedPlace.model.js').PopulatedPlaceModel(dbcon);
     const LanguageModel = require('../models/mysql/language.model.js').LanguageModel(dbcon);
     const HighEducationInstituteModel = require('../models/mysql/highEducationInstitude.model.js').HighEducationInstitute(dbcon);
+    const Neo4jStateModel = require('../models/neo4j/state.model.js').StateModel(neo4j);
 
     app.get('/getAllStates', (req, res) => {
         StateModel.getAllStates()
@@ -26,7 +25,9 @@ exports.StateController = function(app, dbcon, mongo) {
     });
     
     app.post('/addState', (req, res) => {
-        StateModel.addState(req.body.stateId, req.body.stateName, req.body.stateFoundationDate)
+        let mysqlAddPromise = StateModel.addState(req.body.stateId, req.body.stateName, req.body.stateFoundationDate);
+        let neo4jAddPromise = Neo4jStateModel.addState(req.body.stateId, req.body.stateName, req.body.stateFoundationDate);
+        Promise.all([mysqlAddPromise, neo4jAddPromise])
         .then((data) => {
             res.redirect('/addState');
         })
@@ -51,7 +52,10 @@ exports.StateController = function(app, dbcon, mongo) {
     });
     
     app.post('/editStateById/:id', (req, res) => {
-        StateModel.editStateById(req.body.stateId, req.body.stateName, req.body.stateFoundationDate, req.params.id)
+        let mysqlEditPromise = StateModel.editStateById(req.body.stateId, req.body.stateName, req.body.stateFoundationDate, req.params.id);
+        let neo4jEditPromise = Neo4jStateModel.editStateById(req.body.stateId, req.body.stateName, req.body.stateFoundationDate, req.params.id);
+
+        Promise.all([mysqlEditPromise, neo4jEditPromise])
         .then((data) => {
             res.redirect('/getAllStates');
         })
@@ -64,27 +68,40 @@ exports.StateController = function(app, dbcon, mongo) {
     });
     
     app.get('/deleteStateById/:id', (req, res) => {
-        HighEducationInstituteModel.deleteHighEducationInstituteByStateId(req.params.id)
+        
+        let mysqlDeletePromise = StateModel.deleteStateById(req.params.id);
+        let mysqlDeletePopulatedPlaces = PopulatedPlaceModel.deletePopulatedPlaceById(req.params.id);
+        let mysqlDeleteLanguage = LanguageModel.deleteLanguageByStateId(req.params.id);
+        let mysqlDeleteHighEducation = HighEducationInstituteModel.deleteHighEducationInstituteByStateId(req.params.id);
+        let neo4jDeletePromise = Neo4jStateModel.deleteStateById(req.params.id);
+
+        Promise.all([mysqlDeletePromise, neo4jDeletePromise, mysqlDeleteHighEducation, mysqlDeleteLanguage, mysqlDeletePopulatedPlaces])
         .catch((err) =>{
-            res.send('Error deleting high education institute: '  + err);
+            res.send('Error deleting state '  + err);
         })
         .then(() => {
-            PopulatedPlaceModel.deletePopulatedPlaceByStateId(req.params.id)
+            mysqlDeletePopulatedPlaces.deletePopulatedPlaceByStateId(req.params.id)
             .catch((err) => {
                 res.send('Error deleting populated places: '  + err);
             })
             .then(() => {
-                LanguageModel.deleteLanguageByStateId(req.params.id)
+                mysqlDeleteLanguage.deleteLanguageByStateId(req.params.id)
                 .catch((err) => {
                     res.send('Error deleting language: '  + err);
                 })
                 .then(() => {
-                    StateModel.deleteStateById(req.params.id)
-                    .then(() => {
-                        res.redirect('/getAllStates');
-                    })
+                    mysqlDeleteHighEducation.deleteHighEducationInstituteByStateId(req.params.id)
                     .catch((err) => {
-                        res.send('Error deleteing state: '  + err);
+                        res.send('Error deleting High school education: '+err);
+                    })
+                    .then(() =>{
+                        mysqlDeletePromise.deleteStateById(req.params.id)
+                        .then(() => {
+                            res.redirect('/getAllStates');
+                        })
+                        .catch((err) => {
+                            res.send('Error deleteing state: '  + err);
+                        });
                     });
                 });
             });

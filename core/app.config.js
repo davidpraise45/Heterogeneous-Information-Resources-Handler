@@ -2,6 +2,7 @@
 exports.AppConfig = function() {
     const dbcon = require('./mysql.connection.js').MysqlConnection();   //import the MysqlConnection module in order to pass the connection parameters to index.js
     const mongo = require('./mongodb.connection.js').MongodbConnection();   //import the MongodbConnection module in order to pass the connection parameters to index.js  
+    const neo4j = require('./neo4j.connection.js').Neo4jConnection();
 
     //require Node.js exrepss server package
     const express = require('express');
@@ -18,15 +19,15 @@ exports.AppConfig = function() {
     app.set('view engine', 'ejs');
 
     //Start express application at the port 3000
-    app.listen(3001, (err) => {
+    app.listen(3000, (err) => {
         if ( !err ) {
-            console.log('Application is running at port 3001.');
+            console.log('Application is running at port 3000.');
         } else {
             console.log(err);
         }
     });
 
     return {    //return app, dbcon and mongodb
-        app, dbcon, mongo
+        app, dbcon, mongo, neo4j
     };
 }

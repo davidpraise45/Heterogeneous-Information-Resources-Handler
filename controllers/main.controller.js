@@ -1,8 +1,5 @@
-exports.MainController = function(app, dbcon) {
-    
-    const StateModel = require('../models/mysql/state.model.js').StateModel(dbcon);
-    const LanguageModel = require('../models/mysql/language.model.js').LanguageModel(dbcon); 
-    const PopulatedPlace = require('../models/mysql/populatedPlace.model.js').PopulatedPlaceModel(dbcon);
+exports.MainController = function(app, dbcon, mongodb) {
+   
     const HomeModel = require('../models/mysql/main.model.js').HomeModel(dbcon)
  
     app.get('/', (req, res) => {

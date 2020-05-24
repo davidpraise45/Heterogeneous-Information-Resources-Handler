@@ -1,6 +1,7 @@
-exports.InstituteTypeController = function(app, dbcon, mongodb) {
+exports.InstituteTypeController = function(app, dbcon, neo4j) {
    
     const InstituteType = require('../models/mysql/typeOfInstitute.model.js').TypeOfInstitute(dbcon);
+    const Neo4jInstituteTypeModel = require('../models/neo4j/typeOfInstitute.model.js').TypeOfInstituteModel(neo4j);
 
     app.get('/getAllInstituteType', (req, res) => {
         InstituteType.getAllTypeOfInstitute()
@@ -34,7 +35,12 @@ exports.InstituteTypeController = function(app, dbcon, mongodb) {
 
     app.post('/addInstituteType', (req, res) => {
 
-        InstituteType.addTypeOfInstituteInstitute(req.body.instituteTypeId, req.body.instituteTypeName)
+
+        let mysqlAddPromise = InstituteType.addTypeOfInstituteInstitute(req.body.instituteTypeId, req.body.instituteTypeName);
+        let neo4jAddPromise = Neo4jInstituteTypeModel.addInstitute(req.body.instituteTypeId, req.body.instituteTypeName)
+
+
+        Promise.all([mysqlAddPromise, neo4jAddPromise])
         .then((data) => {
             res.redirect('addInstituteType');
         })
@@ -64,7 +70,10 @@ exports.InstituteTypeController = function(app, dbcon, mongodb) {
     });
 
     app.post('/editInstituteTypeById/:id', (req, res) => {
-        InstituteType.editTypeOfInstituteById(req.body.instituteTypeId, req.body.instituteTypeName, req.params.id)
+
+        let mysqlEditPromise = InstituteType.editTypeOfInstituteById(req.body.instituteTypeId, req.body.instituteTypeName, req.params.id);
+        let neo4jEditPromise = Neo4jInstituteTypeModel.editInstituteById(req.body.instituteTypeId, req.body.instituteTypeName, req.params.id);
+        Promise.all([mysqlEditPromise, neo4jEditPromise])
         .then((data) => {
             res.redirect('/getAllInstituteType');
         })
@@ -77,7 +86,9 @@ exports.InstituteTypeController = function(app, dbcon, mongodb) {
     });
 
     app.get('/deleteInstituteTypeById/:id', (req, res) => {
-        InstituteType.deleteTypeOfInstituteById(req.params.id)
+        let mysqlDeletePromise = InstituteType.deleteTypeOfInstituteById(req.params.id);
+        let neo4jDeletePromise = Neo4jInstituteTypeModel.deleteInstituteById(req.params.id);
+        Promise.all([mysqlDeletePromise, neo4jDeletePromise])
         .then((data) => {
             res.redirect('/getAllInstituteType');
         })

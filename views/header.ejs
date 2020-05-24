@@ -8,9 +8,61 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style type="text/css">
+      #viz {
+          width: 1000px;
+          height: 680px;
+          color: black;
+          border: 1px solid lightgray;
+          font: 22pt arial;
+      }
+  </style>
+  
+<script type="text/javascript">
+
+  var viz;
+
+  function draw() {
+      var config = {
+          container_id: "viz",
+          server_url: "neo4j://localhost:7687",
+          server_user: "neo4j",
+          server_password: "neo4j",
+          labels: {
+              "STATE": {
+                  "caption": "DR_NAZIV"
+              },
+              "HIGH_EDUCATION_INSTITUTION": {
+                  "caption": "VU_NAZIV"
+              },
+              "Employee": {
+                  "caption": "ZAP_IME"
+              },
+              "CONTRACT_HISTORY": {
+                  "caption": "UG_BROJ_UGOVORA"
+              },
+              "DOCCUMENTS_OF_EMPLOYMENT": {
+                  "caption": "UG_GODINA"
+              },
+              "CITY": {
+                  "caption": "NM_NAZIV"
+              },
+              "OWNERSHIP_TYPE": {
+                  "caption": "NP_NAZIV_PREDMETA"
+              }
+          },
+          initial_cypher:
+              "MATCH (n) OPTIONAL MATCH (n)-[r]-() RETURN n, r;"
+      };
+
+      viz = new NeoVis.default(config);
+      viz.render();
+  }
+</script>
+</script>
   </head>
-  <body>
+  <body onload="draw()">
 		
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
@@ -47,7 +99,7 @@
             
             </li>
             <li>
-              <a href="/">Graph</a>
+              <a href="/displayGraph">Graph</a>
             </li>
 	        </ul>
 

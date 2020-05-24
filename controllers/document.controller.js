@@ -36,7 +36,6 @@ exports.DocumentController = function(app, dbcon, mongo) {
             });
         })
         .then(([states, cities, languages, highEducationInstitutes, institutionType, ownershipType]) => {
-            //return a new promise which in turn will give back a document structure to insert in 'states' collection by the function 'StatesCollection.insertStatesDocuments(statesDocument);'
             return new Promise((resolve, reject) => {
 
                 highEducationInstitutes = highEducationInstitutes.map(hei => {
@@ -78,7 +77,7 @@ exports.DocumentController = function(app, dbcon, mongo) {
         .catch((err) => {
             res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
                 errorMessage : 'ERROR: ' + err,
-                link : '<a href="/getAllDocuments"> Go Back</a>'
+                link : '<a href="/"> Go Back</a>'
             });
         })
         .then((allDocuments) => {

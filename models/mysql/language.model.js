@@ -39,7 +39,7 @@ exports.LanguageModel = function(dbcon) {
             });
         },
 
-        editLanguageById : function(language, id){
+        editLanguageById : function(id, language){
             
             return new Promise((resolve, reject) => {
                 let query = "UPDATE LANGUAGES SET JEZ_NAZIV = ? WHERE JEZ_JEZIK LIKE ?;";
