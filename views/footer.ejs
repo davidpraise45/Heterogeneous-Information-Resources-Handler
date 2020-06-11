@@ -13,5 +13,75 @@
     <script src="https://cdn.neo4jlabs.com/neovis.js/v1.4.0/neovis.js"></script>
     <script src="https://cdn.neo4jlabs.com/neovis.js/v1.4.0/neovis-without-dependencies.js"></script>
     <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+
+        
+    <script>
+        // states
+        function redirectToEditStatePage(){
+            var inputVal = document.getElementById("EditStateInput").value;
+            window.location.replace("http://localhost:3000/editStateById/"+inputVal);
+        }
+
+        function redirectToDeleteStatePage(){
+            var inputVal = document.getElementById("DeleteStateInput").value;
+            window.location.replace("http://localhost:3000/deleteStateById/"+inputVal);
+        }
+
+        // populated place
+        function redirectToEditPopulatedPlacePage(){
+            var inputVal = document.getElementById("EditPopulatedPlaceInput").value;
+            window.location.replace("http://localhost:3000/editPopulatedPlaceById/"+inputVal);
+        }
+
+        function redirectToDeletePopulatedPlacePage(){
+            var inputVal = document.getElementById("DeletePopulatedPlaceInput").value;
+            window.location.replace("http://localhost:3000/deletePopulatedPlaceById/"+inputVal);
+        }
+
+        // ownership type
+        function redirectToEditOwnershipPage(){
+            var inputVal = document.getElementById("EditOwnershipInput").value;
+            window.location.replace("http://localhost:3000/editOwnershipTypeById/"+inputVal);
+        }
+
+        function redirectToDeleteOwnershipPage(){
+            var inputVal = document.getElementById("DeleteOwnershipInput").value;
+            window.location.replace("http://localhost:3000/deleteOwnershipTypeById/"+inputVal);
+        }
+
+        // language type
+        function redirectToEditLanguagePage(){
+            var inputVal = document.getElementById("EditLanguageInput").value;
+            window.location.replace("http://localhost:3000/editLanguageById/"+inputVal);
+        }
+
+        function redirectToDeleteLanguagePage(){
+            var inputVal = document.getElementById("DeleteLanguageInput").value;
+            window.location.replace("http://localhost:3000/deleteLanguageById/"+inputVal);
+        }
+
+        // high education institute
+        function redirectToEditHEIPage(){
+            var inputVal = document.getElementById("EditHEIInput").value;
+            window.location.replace("http://localhost:3000/editHighEducationInstituteById/"+inputVal);
+        }
+
+        function redirectToDeleteHEIPage(){
+            var inputVal = document.getElementById("DeleteHEIInput").value;
+            window.location.replace("http://localhost:3000/deleteHighEducationInstituteById/"+inputVal);
+        }
+
+        // type of institute
+        function redirectToEditInstituteTypePage(){
+            var inputVal = document.getElementById("EditInstituteTypeInput").value;
+            window.location.replace("http://localhost:3000/editInstituteTypeById/"+inputVal);
+        }
+
+        function redirectToDeleteInstituteTypePage(){
+            var inputVal = document.getElementById("DeleteInstituteTypeInput").value;
+            window.location.replace("http://localhost:3000/deleteInstituteTypeById/"+inputVal);
+        }
+
+    </script>
 </body>
 </html>

@@ -1,7 +1,9 @@
-exports.OwnershipTypeController = function(app, dbcon, neo4j) {
+exports.OwnershipTypeController = function(app, dbcon, mongo, neo4j) {
 
     const OwnershipTypeModel = require('../models/mysql/ownershipType.model.js').OwnershipType(dbcon);
     const Neo4jOwnershipTypeModel = require('../models/neo4j/ownershipType.model.js').OwnershipTypeModel(neo4j); 
+    const ownershipTypeCollection = require('../models/mongodb/ownership.collection.js').OwnershipTypeCollectionModel(mongo);
+
     
         app.get('/getAllOwnershipType', (req, res) => {
             OwnershipTypeModel.getAllOwnershipType()
@@ -96,4 +98,63 @@ exports.OwnershipTypeController = function(app, dbcon, neo4j) {
                 });
             })
         });
+
+
+        // This is for generating the state documents
+        app.get('/getOwnershipTypeDocument', (req, res) => {
+            ownershipTypeCollection.getAllDocuments()
+            .then((data) => {
+                res.render('ownershipTypeDocument', {
+                    documents : data
+                });
+            })
+            .catch((err) => {
+
+            });
+        });
+
+        app.get('/generateOwnershipTypeDocument', (req, res) => {
+            const allOwnershipType = OwnershipTypeModel.getAllOwnershipType(); 
+    
+            Promise.all([allOwnershipType])
+            .catch((err) => {
+                res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                    errorMessage : 'ERROR: ' + err,
+                    link : '<a href="/generateOwnershipTypeDocument"> Go Back</a>'
+                });
+            })
+            .then(([allOwnershipType]) => {
+                return new Promise((resolve, reject) => {
+    
+                    allOwnershipType = allOwnershipType.map(ownerType => {
+                        return {
+                            ownershipType : ownerType.VV_OZNAKA,
+                            ownershipName : ownerType.VV_NAZIV
+                        }
+                    });
+    
+                    if(allOwnershipType.length == 0) {
+                        reject('No Ownership Type Document!');
+                    }
+    
+                    resolve({
+                        created_at : JSON.stringify(new Date()),
+                        allOwnershipType : allOwnershipType
+                    });
+                });
+            })
+            .catch((err) => {
+                res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                    errorMessage : 'ERROR: ' + err,
+                    link : '<a href="/"> Go Back</a>'
+                });
+            })
+            .then((ownershipTypeDocument) => {
+                ownershipTypeCollection.insertDocuments(ownershipTypeDocument)
+                .then(() => {
+                    res.redirect('/getOwnershipTypeDocument');
+                });
+            })
+        });
+
     }

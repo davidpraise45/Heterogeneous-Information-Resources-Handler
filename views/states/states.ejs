@@ -10,9 +10,58 @@
 
     <div class="row-sm-8">
         <div>
-            <a type="button" class="btn btn-primary" href="/addState">Add new state</a>
+            <a type="button" class="btn btn-primary" href="/addState">Add</a>
+                <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModalCenter">Edit</button>
+            <button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#deleteModalCenter">Delete</button>
+            <a type="button" class="btn btn-primary" href="/generateStateDocument">Generate Document</a>
         </div>
     </div>
+
+  
+  <!-- Modal -->
+    <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <p style="color:black;">Kindly enter the State Id of the data you wish to edit. For example "CAN" for Canada.</p>
+                <input type="text" placeholder="CAN" id="EditStateInput">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="redirectToEditStatePage();">Edit Now</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p style="color:black;">Kindly enter the State Id of the data you wish to delete. For example "CAN" for Canada</p>
+                <input type="text" placeholder="CAN" id="DeleteStateInput">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="redirectToDeleteStatePage();">Delete Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <br>
     <div class="row-sm-8">
         <div class="table-responsive-xl table-hover">  
@@ -23,8 +72,6 @@
                         <th scope="col">State ID</th>
                         <th scope="col">State Name</th>
                         <th scope="col">Foundation Date</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,8 +81,6 @@
                         <td><%= state.DR_IDENTIFIKATOR %></td>
                         <td><%= state.DR_NAZIV %></td>
                         <td><%= state.DR_DATUM_OSNIVANJA %></td>
-                        <td><a type="button" class="btn btn-warning" href="/editStateById/<%= state.DR_IDENTIFIKATOR %>">Edit</a></td>
-                        <td><a type="button" class="btn btn-danger" href="/deleteStateById/<%= state.DR_IDENTIFIKATOR %>" onClick="return confirm('This will delete all cities of this state, are you sure you want proceed!');">Delete</a></td>
                     </tr>
                     <% }); %>
                 </tbody>

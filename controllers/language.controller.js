@@ -1,7 +1,9 @@
-exports.LanguageController = function(app, dbcon, neo4j) {
+exports.LanguageController = function(app, dbcon, mongo, neo4j) {
 
     const LanguageModel = require('../models/mysql/language.model.js').LanguageModel(dbcon);
     const Neo4jLanguageModel = require('../models/neo4j/language.model.js').LanguageModel(neo4j); 
+    const languageCollection = require('../models/mongodb/language.collection.js').LanguageCollectionModel(mongo);
+
 
     app.get('/getAllLanguages', (req, res) => {
         LanguageModel.getAllLanguages()
@@ -105,4 +107,62 @@ exports.LanguageController = function(app, dbcon, neo4j) {
             });
         })
     });
+
+    // This is for generating the state documents
+    app.get('/getLanguageDocument', (req, res) => {
+        languageCollection.getAllDocuments()
+        .then((data) => {
+            res.render('languageDocument', {
+                documents : data
+            });
+        })
+        .catch((err) => {
+
+        });
+    });
+
+    app.get('/generateLanguageDocument', (req, res) => {
+        const allLanguage = LanguageModel.getAllLanguages(); 
+
+        Promise.all([allLanguage])
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/generateLanguageDocument"> Go Back</a>'
+            });
+        })
+        .then(([allLanguage]) => {
+            return new Promise((resolve, reject) => {
+
+                allLanguage = allLanguage.map(lang => {
+                    return {
+                        languageId : lang.JEZ_JEZIK,
+                        languageName : lang.JEZ_NAZIV
+                    }
+                });
+
+                if(allLanguage.length == 0) {
+                    reject('No Language Document!');
+                }
+
+                resolve({
+                    created_at : JSON.stringify(new Date()),
+                    allLanguage : allLanguage
+                });
+            });
+        })
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/"> Go Back</a>'
+            });
+        })
+        .then((languageDocument) => {
+            languageCollection.insertDocuments(languageDocument)
+            .then(() => {
+                res.redirect('/languageDocument');
+            });
+        })
+    });
+
 }

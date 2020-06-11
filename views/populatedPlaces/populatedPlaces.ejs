@@ -11,10 +11,58 @@
 
         <div class="row-sm-8">
             <div>
-                <a type="button" class="btn btn-primary" href="/addPopulatedPlace">Add new populated place</a>
+                <a type="button" class="btn btn-primary" href="/addPopulatedPlace">Add</a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModalCenter">Edit</button>
+                <button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#deleteModalCenter">Delete</button>
+                <a type="button" class="btn btn-primary" href="/generatePopulatedPlaceDocument">Generate Document</a>
             </div>
         </div>
-        <br>
+    
+    
+    <!-- Modal -->
+        <div class="modal fade" id="editModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;">Kindly enter the Populated Place Id of the data you wish to edit. For example 1.</p>
+                    <input type="text" placeholder="1" id="EditPopulatedPlaceInput">
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="redirectToEditPopulatedPlacePage();">Edit Now</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    
+        <div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:black;">Kindly enter the  Populated Place Id of the data you wish to delete. For example 1.</p>
+                    <input type="text" placeholder="1" id="DeletePopulatedPlaceInput">
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="redirectToDeletePopulatedPlacePage();">Delete Now</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </br>
 
         <div class="row-sm-8">
             <div class="table-responsive-xl table-hover">  
@@ -24,10 +72,8 @@
                             <th scope="col">#</th>
                             <th scope="col">State ID</th>
                             <th scope="col">Populated Place Name</th>
-                            <th scope="col">ID</th>
+                            <th scope="col">Populated Place ID</th>
                             <th scope="col">PTT CODE</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,8 +84,6 @@
                             <td><%= populatedPlace.NM_NAZIV %></td>
                             <td><%= populatedPlace.NM_IDENTIFIKATOR %></td>
                             <td><%= populatedPlace.NM_PTT_CODE %></td>
-                            <td><a type="button" class="btn btn-warning" href="/editPopulatedPlaceById/<%= populatedPlace.NM_IDENTIFIKATOR %>">Edit</a></td>
-                            <td><a type="button" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete this city?');" href="/deletePopulatedPlaceById/<%= populatedPlace.NM_IDENTIFIKATOR %>">Delete</a></td>
                         </tr>
                         <% }); %>
                     </tbody>

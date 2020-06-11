@@ -1,6 +1,8 @@
-exports.PopulatedPlaceController = function(app, dbcon, neo4j) {
+exports.PopulatedPlaceController = function(app, dbcon, mongo, neo4j) {
     const PopulatedPlaceModel = require('../models/mysql/populatedPlace.model.js').PopulatedPlaceModel(dbcon);
     const Neo4jPopulatedPlaceModel = require('../models/neo4j/populatedPlaces.model.js').PopulatedPlaceModel(neo4j);
+    const PopulatedPlaceCollection = require('../models/mongodb/populatedPlace.collection.js').PopulatedPlaceCollectionModel(mongo);
+
     
     app.get('/getAllPopulatedPlaces', (req, res) => {
         PopulatedPlaceModel.getAllPopulatedPlaces()
@@ -106,6 +108,66 @@ exports.PopulatedPlaceController = function(app, dbcon, neo4j) {
             res.render('message', {    
                 errorMessage : 'ERROR: ' + err,
                 link : '<a href="/getAllPopulatedPlaces/' + req.params.id + '"> Go Back</a>'
+            });
+        })
+    });
+
+    
+    // This is for generating the populated place documents
+    app.get('/getPopulatedPlaceDocument', (req, res) => {
+        PopulatedPlaceCollection.getAllDocuments()
+        .then((data) => {
+            res.render('populatedDocument', {
+                documents : data
+            });
+        })
+        .catch((err) => {
+
+        });
+    });
+
+    app.get('/generatePopulatedPlaceDocument', (req, res) => {
+        const allPopulatedPlace = PopulatedPlaceModel.getAllPopulatedPlaces(); 
+
+        Promise.all([allPopulatedPlace])
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/getPopulatedPlaceDocument"> Go Back</a>'
+            });
+        })
+        .then(([allPopulatedPlace]) => {
+            return new Promise((resolve, reject) => {
+
+                allPopulatedPlace = allPopulatedPlace.map(pp => {
+                    return {
+                        stateId : pp.DR_IDENTIFIKATOR,
+                        popuplatedPlaceId : pp.NM_IDENTIFIKATOR,
+                        popuplatedPlaceState : pp.NM_NAZIV,
+                        popuplatedPlaceNumber : pp.NM_PTT_CODE
+                    }
+                });
+
+                if(allPopulatedPlace.length == 0) {
+                    reject('No Populated Place Document!');
+                }
+
+                resolve({
+                    created_at : JSON.stringify(new Date()),
+                    allPopulatedPlace : allPopulatedPlace
+                });
+            });
+        })
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/"> Go Back</a>'
+            });
+        })
+        .then((populatedDocument) => {
+            PopulatedPlaceCollection.insertDocuments(populatedDocument)
+            .then(() => {
+                res.redirect('/getPopulatedPlaceDocument');
             });
         })
     });

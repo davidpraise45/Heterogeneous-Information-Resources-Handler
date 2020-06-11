@@ -1,7 +1,9 @@
-exports.InstituteTypeController = function(app, dbcon, neo4j) {
+exports.InstituteTypeController = function(app, dbcon, mongo, neo4j) {
    
     const InstituteType = require('../models/mysql/typeOfInstitute.model.js').TypeOfInstitute(dbcon);
     const Neo4jInstituteTypeModel = require('../models/neo4j/typeOfInstitute.model.js').TypeOfInstituteModel(neo4j);
+    const instituteCollection = require('../models/mongodb/typeOfInstitute.collection.js').InstituteTypeCollectionModel(mongo);
+
 
     app.get('/getAllInstituteType', (req, res) => {
         InstituteType.getAllTypeOfInstitute()
@@ -99,4 +101,63 @@ exports.InstituteTypeController = function(app, dbcon, neo4j) {
             });
         })
     });
+
+    // This is for generating the state documents
+    app.get('/getInstituteDocument', (req, res) => {
+        instituteCollection.getAllDocuments()
+        .then((data) => {
+            res.render('typeOfInstituteDocument', {
+                documents : data
+            });
+        })
+        .catch((err) => {
+
+        });
+    });
+
+    app.get('/generateInstituteDocument', (req, res) => {
+        const allInstitute = InstituteType.getAllTypeOfInstitute(); 
+
+        Promise.all([allInstitute])
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/generateInstituteDocument"> Go Back</a>'
+            });
+        })
+        .then(([allInstitute]) => {
+            return new Promise((resolve, reject) => {
+
+                allInstitute = allInstitute.map(insti => {
+                    return {
+                        instituteType : insti.TIP_UST,
+                        instituteName : insti.TIP_NAZIV
+                    }
+                });
+
+                if(allInstitute.length == 0) {
+                    reject('No Institute Document!');
+                }
+
+                resolve({
+                    created_at : JSON.stringify(new Date()),
+                    allInstitute : allInstitute
+                });
+            });
+        })
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/"> Go Back</a>'
+            });
+        })
+        .then((typeOfInstituteDocument) => {
+            instituteCollection.insertDocuments(typeOfInstituteDocument)
+            .then(() => {
+                res.redirect('/getInstituteDocument');
+            });
+        })
+    });
+
+
 }

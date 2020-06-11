@@ -1,9 +1,10 @@
-exports.StateController = function(app, dbcon, neo4j) {
+exports.StateController = function(app, dbcon, mongo, neo4j) {
     const StateModel = require('../models/mysql/state.model.js').StateModel(dbcon);
     const PopulatedPlaceModel = require('../models/mysql/populatedPlace.model.js').PopulatedPlaceModel(dbcon);
     const LanguageModel = require('../models/mysql/language.model.js').LanguageModel(dbcon);
     const HighEducationInstituteModel = require('../models/mysql/highEducationInstitude.model.js').HighEducationInstitute(dbcon);
     const Neo4jStateModel = require('../models/neo4j/state.model.js').StateModel(neo4j);
+    const StateCollection = require('../models/mongodb/state.collection.js').StateCollectionModel(mongo);
 
     app.get('/getAllStates', (req, res) => {
         StateModel.getAllStates()
@@ -106,5 +107,63 @@ exports.StateController = function(app, dbcon, neo4j) {
                 });
             });
         });
+    });
+
+    // This is for generating the state documents
+    app.get('/getStateDocument', (req, res) => {
+        StateCollection.getAllDocuments()
+        .then((data) => {
+            res.render('stateDocument', {
+                documents : data
+            });
+        })
+        .catch((err) => {
+
+        });
+    });
+
+    app.get('/generateStateDocument', (req, res) => {
+        const allStates = StateModel.getAllStates(); 
+
+        Promise.all([allStates])
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/getStateDocument"> Go Back</a>'
+            });
+        })
+        .then(([allStates]) => {
+            return new Promise((resolve, reject) => {
+
+                allStates = allStates.map(state => {
+                    return {
+                        stateId : state.DR_IDENTIFIKATOR,
+                        stateName : state.DR_NAZIV,
+                        stateFoundationDate : state.DR_DATUM_OSNIVANJA
+                    }
+                });
+
+                if(allStates.length == 0) {
+                    reject('No State Document!');
+                }
+
+                resolve({
+                    created_at : JSON.stringify(new Date()),
+                    allStates : allStates
+                });
+            });
+        })
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/"> Go Back</a>'
+            });
+        })
+        .then((stateDocument) => {
+            StateCollection.insertDocuments(stateDocument)
+            .then(() => {
+                res.redirect('/getStateDocument');
+            });
+        })
     });
 }

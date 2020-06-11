@@ -1,8 +1,13 @@
 <%- include('header') %>
     <br>    
-    <a type="button" class="btn btn-primary" href="/generateAllDocument">Generate Institute Education Document</a>
-    <br><br>
-    
+    <h2>Populated Place Document</h2>
+    <br>
+    <div class="row-sm-8">
+        <div>
+            <a type="button" class="btn btn-primary" href="/getAllPopulatedPlaces">Go back</a>
+        </div>
+    </div>
+    <br>
     <div id="accordion">
         <% documents.forEach(function(document, index) { %>
         <div class="card">

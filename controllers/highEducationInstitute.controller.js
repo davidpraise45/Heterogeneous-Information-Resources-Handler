@@ -1,6 +1,7 @@
-exports.HighEducationInstituteController = function(app, dbcon, neo4j) {
+exports.HighEducationInstituteController = function(app, dbcon, mongo, neo4j) {
     const HighEducationInstitute = require('../models/mysql/highEducationInstitude.model').HighEducationInstitute(dbcon); 
     const Neo4jHighEducationInstituteModel = require('../models/neo4j/highEducationInstitute.model.js').HighEducationInstituteModel(neo4j);
+    const heiCollection = require('../models/mongodb/highEducationInstitute.collection.js').HighEducationInstituteCollectionModel(mongo);
 
 
     app.get('/getAllHighEducationInstitute', (req, res) => {
@@ -97,4 +98,66 @@ exports.HighEducationInstituteController = function(app, dbcon, neo4j) {
             });
         })
     });
+
+     
+    // This is for generating the high education institute documents
+    app.get('/getHighEducationInstituteDocument', (req, res) => {
+        heiCollection.getAllDocuments()
+        .then((data) => {
+            res.render('highEducationInstituteDocument', {
+                documents : data
+            });
+        })
+        .catch((err) => {
+
+        });
+    });
+
+    app.get('/generateHighEducationInstituteDocument', (req, res) => {
+        const allheis = HighEducationInstitute.getAllHighEducationInstitute(); 
+
+        Promise.all([allheis])
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/getHighEducationInstituteDocument"> Go Back</a>'
+            });
+        })
+        .then(([allheis]) => {
+            return new Promise((resolve, reject) => {
+
+                allheis = allheis.map(hei => {
+                    return {
+                        highEducationInstituteId : hei.VU_IDENTIFIKATOR,
+                        highEducationInstituteType : hei.TIP_UST,
+                        highEducationInstituteName : hei.VU_NAZIV,
+                        highEducationInstituteStateId : hei.DR_IDENTIFIKATOR,
+                        highEducationInstituteOwnershipType : hei.VV_OZNAKA
+                    }
+                });
+
+                if(allheis.length == 0) {
+                    reject('No High Education Institute Document!');
+                }
+
+                resolve({
+                    created_at : JSON.stringify(new Date()),
+                    allheis : allheis
+                });
+            });
+        })
+        .catch((err) => {
+            res.render('message', {      //In case the query fail. Render 'message.ejs' and display the obtained error message
+                errorMessage : 'ERROR: ' + err,
+                link : '<a href="/"> Go Back</a>'
+            });
+        })
+        .then((highEducationInstituteDocument) => {
+            heiCollection.insertDocuments(highEducationInstituteDocument)
+            .then(() => {
+                res.redirect('/getHighEducationInstituteDocument');
+            });
+        })
+    });
+
 }
