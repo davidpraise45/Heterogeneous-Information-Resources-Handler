@@ -104,7 +104,7 @@ exports.HighEducationInstituteController = function(app, dbcon, mongo, neo4j) {
     app.get('/getHighEducationInstituteDocument', (req, res) => {
         heiCollection.getAllDocuments()
         .then((data) => {
-            res.render('highEducationInstituteDocument', {
+            res.render('documentView/highEducationInstituteDocument', {
                 documents : data
             });
         })

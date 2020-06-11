@@ -20,6 +20,18 @@ exports.StateController = function(app, dbcon, mongo, neo4j) {
             });  
         });
     });
+    /*
+    app.get('/getStateById', (req, res) => {
+        StateModel.getStateById(req.params.id)
+        .then((data) => {
+            res.render('states/state', {
+                state : data[0]
+            });
+        })
+        .catch((err) => {
+            res.send('editState', err);
+        });
+    });*/
     
     app.get('/addState', (req, res) => {
         res.render('states/addState');
@@ -113,7 +125,7 @@ exports.StateController = function(app, dbcon, mongo, neo4j) {
     app.get('/getStateDocument', (req, res) => {
         StateCollection.getAllDocuments()
         .then((data) => {
-            res.render('stateDocument', {
+            res.render('documentView/stateDocument', {
                 documents : data
             });
         })

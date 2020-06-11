@@ -104,7 +104,7 @@ exports.OwnershipTypeController = function(app, dbcon, mongo, neo4j) {
         app.get('/getOwnershipTypeDocument', (req, res) => {
             ownershipTypeCollection.getAllDocuments()
             .then((data) => {
-                res.render('ownershipTypeDocument', {
+                res.render('documentView/ownershipTypeDocument', {
                     documents : data
                 });
             })

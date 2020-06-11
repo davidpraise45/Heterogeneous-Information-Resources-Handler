@@ -117,7 +117,7 @@ exports.PopulatedPlaceController = function(app, dbcon, mongo, neo4j) {
     app.get('/getPopulatedPlaceDocument', (req, res) => {
         PopulatedPlaceCollection.getAllDocuments()
         .then((data) => {
-            res.render('populatedDocument', {
+            res.render('documentView/populatedDocument', {
                 documents : data
             });
         })

@@ -1,13 +1,9 @@
-<%- include('header') %>
+<%- include('../header') %>
     <br>    
-    <h2>State Document</h2>
-    <br>
-    <div class="row-sm-8">
-        <div>
-            <a type="button" class="btn btn-primary" href="/getAllStates">Go back</a>
-        </div>
-    </div>
-    <br>
+    <h2>Institute Association Document</h2></br>
+    <a type="button" class="btn btn-primary" href="/generateAllDocument">Generate Document</a>
+    <br><br>
+    
     <div id="accordion">
         <% documents.forEach(function(document, index) { %>
         <div class="card">
@@ -28,4 +24,4 @@
         <% }); %>
     </div>
     
-<%- include('footer') %>
+<%- include('../footer') %>

@@ -106,7 +106,7 @@ exports.InstituteTypeController = function(app, dbcon, mongo, neo4j) {
     app.get('/getInstituteDocument', (req, res) => {
         instituteCollection.getAllDocuments()
         .then((data) => {
-            res.render('typeOfInstituteDocument', {
+            res.render('documentView/typeOfInstituteDocument', {
                 documents : data
             });
         })

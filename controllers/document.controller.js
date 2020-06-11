@@ -11,7 +11,7 @@ exports.DocumentController = function(app, dbcon, mongo) {
     app.get('/getAllDocuments', (req, res) => {
         DocumentCollection.getAllDocuments()
         .then((data) => {
-            res.render('allDocuments', {
+            res.render('documentView/allDocuments', {
                 documents : data
             });
         })

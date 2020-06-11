@@ -112,7 +112,7 @@ exports.LanguageController = function(app, dbcon, mongo, neo4j) {
     app.get('/getLanguageDocument', (req, res) => {
         languageCollection.getAllDocuments()
         .then((data) => {
-            res.render('languageDocument', {
+            res.render('documentView/languageDocument', {
                 documents : data
             });
         })
